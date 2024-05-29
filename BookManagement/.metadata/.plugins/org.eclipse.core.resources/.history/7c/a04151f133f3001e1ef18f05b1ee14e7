@@ -1,0 +1,48 @@
+package com.app.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.dto.UserDto;
+import com.app.entity.User;
+import com.app.repo.UserRepo;
+
+@Service
+public class UserServiceImpl implements UserService{
+	
+	@Autowired 
+	private UserRepo userRepo;
+
+	@Override
+	public String newUser(UserDto userDto) {
+		User user =new User(userDto.getId(),
+							userDto.getName(),
+							userDto.getEmail(),
+							userDto.getContact(),
+							userDto.getRole(),
+							userDto.getPassword());
+		userRepo.save(user);
+		return "Added Succesfully";
+	}
+
+	@Override
+	public List<User> fetchAll() {
+		return userRepo.findAll();
+	}
+
+	@Override
+	public String removeUser(int id) {
+		userRepo.deleteById(id);
+		return "Deleted Successfully";
+	}
+
+	@Override
+	public boolean editUser(int id, UserDto userDto) {
+		User user = userRepo.findById(id).orElseThrow();
+		return false;
+	}
+	
+	
+}

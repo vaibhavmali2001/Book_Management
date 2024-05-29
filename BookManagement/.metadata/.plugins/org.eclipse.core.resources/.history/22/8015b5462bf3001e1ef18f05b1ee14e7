@@ -1,0 +1,35 @@
+package com.app.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.dto.BookDto;
+import com.app.entity.Book;
+import com.app.repo.BookRepo;
+
+@Service
+public class BookServiceImpl implements BookService{
+	
+	@Autowired
+	private BookRepo bookRepo;
+
+	@Override
+	public String newBook(BookDto bookDto) {
+		Book book =new Book(bookDto.getBookId(),
+							bookDto.getBookName(),
+							bookDto.getBookAuthor(),
+							bookDto.getBookPrice(),
+							bookDto.getDescription(),
+							bookDto.getBookImage());
+		bookRepo.save(book);
+		return "Book Added";
+	}
+
+	@Override
+	public List<Book> fetchAllBooks() {
+		return bookRepo.findAll();
+	}
+	
+}
